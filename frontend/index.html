@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inkwell — Blog Platform</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- AUTH SCREEN -->
+    <div id="auth-screen" class="auth-screen">
+        <div class="auth-box">
+            <div class="auth-logo">Inkwell</div>
+            <p class="auth-sub">A place for your thoughts.</p>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Log In</button>
+                <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+            </div>
+            <div id="form-login" class="auth-form">
+                <input type="text" id="login-username" placeholder="Username" class="auth-input" />
+                <input type="password" id="login-password" placeholder="Password" class="auth-input" />
+                <div id="login-error" class="auth-error"></div>
+                <button class="btn-primary full" onclick="login()">Log In</button>
+            </div>
+            <div id="form-register" class="auth-form hidden">
+                <input type="text" id="reg-username" placeholder="Choose a username" class="auth-input" />
+                <input type="password" id="reg-password" placeholder="Choose a password" class="auth-input" />
+                <input type="password" id="reg-confirm" placeholder="Confirm password" class="auth-input" />
+                <div id="reg-error" class="auth-error"></div>
+                <button class="btn-primary full" onclick="register()">Create Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APP -->
+    <div id="app-screen" class="hidden">
+
+        <!-- NAV -->
+        <nav class="nav">
+            <span class="nav-logo" onclick="showPage('feed')">Inkwell</span>
+            <div class="nav-links">
+                <button class="nav-btn" onclick="showPage('feed')">Feed</button>
+                <button class="nav-btn" onclick="showPage('my-posts')">My Posts</button>
+            </div>
+            <div class="nav-right">
+                <button class="btn-primary small" onclick="showPage('new-post')">+ New Post</button>
+                <span class="nav-user" id="nav-username"></span>
+                <button class="btn-ghost small" onclick="logout()">Log out</button>
+            </div>
+        </nav>
+
+        <!-- FEED PAGE -->
+        <div id="page-feed" class="page">
+            <div class="container">
+                <div class="feed-header">
+                    <div>
+                        <p class="eyebrow">Latest</p>
+                        <h1 class="page-title">All Posts</h1>
+                    </div>
+                    <input type="text" id="search-input" class="search-input" placeholder="Search posts..."
+                        oninput="renderFeed()" />
+                </div>
+                <div id="feed-list"></div>
+                <div id="feed-empty" class="empty-state hidden">
+                    <div class="empty-icon">✍️</div>
+                    <p>No posts yet. Be the first to write!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MY POSTS PAGE -->
+        <div id="page-my-posts" class="page hidden">
+            <div class="container">
+                <p class="eyebrow">Your writing</p>
+                <h1 class="page-title">My Posts</h1>
+                <div id="my-posts-list"></div>
+                <div id="my-posts-empty" class="empty-state hidden">
+                    <div class="empty-icon">📝</div>
+                    <p>You haven't written anything yet.</p>
+                    <button class="btn-primary" onclick="showPage('new-post')" style="margin-top:1rem">Write your first
+                        post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW / EDIT POST PAGE -->
+        <div id="page-new-post" class="page hidden">
+            <div class="container narrow">
+                <p class="eyebrow" id="editor-eyebrow">New Post</p>
+                <h1 class="page-title" id="editor-title">Write Something</h1>
+                <div class="editor-box">
+                    <input type="text" id="post-title" placeholder="Post title..." class="title-input" />
+                    <input type="text" id="post-tags" placeholder="Tags (comma separated, e.g. tech, life)"
+                        class="auth-input" />
+                    <textarea id="post-body" placeholder="Write your post here..." class="body-input"
+                        rows="12"></textarea>
+                    <div class="editor-actions">
+                        <button class="btn-ghost small" onclick="showPage('feed')">Cancel</button>
+                        <button class="btn-primary" id="publish-btn" onclick="publishPost()">Publish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST DETAIL PAGE -->
+        <div id="page-post" class="page hidden">
+            <div class="container narrow">
+                <button class="back-btn" onclick="showPage('feed')">← Back to feed</button>
+                <div id="post-detail"></div>
+                <div class="comments-section">
+                    <h3 class="comments-title">Comments <span id="comment-count"></span></h3>
+                    <div class="comment-form">
+                        <textarea id="comment-input" placeholder="Write a comment..." class="comment-textarea"
+                            rows="3"></textarea>
+                        <button class="btn-primary small" onclick="addComment()">Post Comment</button>
+                    </div>
+                    <div id="comments-list"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
